@@ -3,13 +3,21 @@ import random
 class coordinate:
     def __init__(self, driver, element, frame=None):
         self.location = element.location
+        x_offset = driver.execute_script("return window.scrollX")
+        y_offset = driver.execute_script("return window.scrollY")
+        self.location['x'] -= x_offset
+        self.location['y'] -= y_offset
         self.size = element.size
 
         if frame:
             driver.switch_to.parent_frame()
             frame_location = frame.location
+            x_offset = driver.execute_script("return window.scrollX")
+            y_offset = driver.execute_script("return window.scrollY")
             self.location['x'] += frame_location['x']
             self.location['y'] += frame_location['y']
+            self.location['x'] -= x_offset
+            self.location['y'] -= y_offset
             driver.switch_to.frame(frame)
 
 

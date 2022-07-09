@@ -34,10 +34,10 @@ class buster_captcha_solver:
 
         # Defualt directory
         if not directory:
-            directory = os.path.abspath(__file__ + "/../../")
+            directory = os.path.abspath(__file__ + "/../../") + '/'
 
-        folder = create_folder(directory + "\\chrome_extension")
-        path = folder + "\\" + name
+        folder = create_folder(directory + r"chrome_extension/")
+        path = folder + name
 
         if not os.path.exists(path):
             r = requests.get(dl_url, stream=True)

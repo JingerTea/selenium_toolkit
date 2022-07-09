@@ -1,9 +1,11 @@
 import re
-from selenium_toolbox.recaptcha.buster_captcha_solver import buster_captcha_solver
 import seleniumwire.undetected_chromedriver as webdriver
+from xvfbwrapper import Xvfb
+from selenium_toolbox.recaptcha.buster_captcha_solver import buster_captcha_solver
 
 
-def proxy_options(method, host, port, user=None, password=None):
+def proxy_options(method, host: str, port: str,
+                  user: str = None, password: str = None):
     if user and password:
         authentication = f"{user}:{password}@"
     elif not user and not password:
@@ -26,7 +28,9 @@ def proxy_options(method, host, port, user=None, password=None):
     return options
 
 
-def get_driver(profile=None,  proxy=None, image=True, chrome=None, version=None):
+def get_driver(profile=None,  proxy=None, image=True,
+               chrome=None, version=None, headless: bool = False):
+
     options = webdriver.ChromeOptions()
     seleniumwire_options = None
     # options.headless = True
@@ -53,7 +57,7 @@ def get_driver(profile=None,  proxy=None, image=True, chrome=None, version=None)
 
     # Profile
     if profile:
-        options.add_argument(f'--user-data-dir=c:\\temp\\{profile}')
+        options.add_argument(r'--user-data-dir=c:/temp/{profile}')
 
     # Download Buster Captcha Solver
     extn_1 = buster_captcha_solver().download(unzip=True)
@@ -72,6 +76,11 @@ def get_driver(profile=None,  proxy=None, image=True, chrome=None, version=None)
 
     if chrome:
         options.binary_location = chrome
+
+    if headless:
+        vdisplay = Xvfb(width=1920, height=1080)
+        vdisplay.start()
+        options.add_argument("--start-maximized")
     driver = webdriver.Chrome(options=options, seleniumwire_options=seleniumwire_options,
                               use_subprocess=True, version_main=version)
 

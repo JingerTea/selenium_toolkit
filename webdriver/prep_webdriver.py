@@ -54,7 +54,7 @@ def get_driver(profile=None,  proxy=None, image=True, chrome=None, version=None)
 
     # Profile
     if profile:
-        options.add_argument(f'--user-data-dir=c:\\temp\\{profile}')
+        options.add_argument(r'--user-data-dir=c:/temp/{profile}')
 
     # Download Buster Captcha Solver
     extn_1 = buster_captcha_solver().download(unzip=True)
