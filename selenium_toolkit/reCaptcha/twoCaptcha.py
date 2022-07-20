@@ -1,7 +1,8 @@
 import time
 import requests
 
-def twoCaptcha_solver(api_key, sitekey, url, enterprise=False, min_score=False):
+
+def solve_by_twoCaptcha(api_key, sitekey, url, enterprise=False, min_score=False):
     print(f"Solve reCAPTCHA by twoCaptcha: ATTEMPT (sitekey={sitekey})")
     u1 = f"https://2captcha.com/in.php?key={api_key}" \
          f"&method=userrecaptcha&googlekey={sitekey}" \

@@ -1,11 +1,11 @@
-from selenium_toolbox.webdriver.prep_undetect_webdriver import get_driver
+import selenium_toolkit.chromedriver as chromedriver
+import selenium_toolkit.reCaptcha as reCaptcha
 from selenium.webdriver.common.by import By
 from HLISA.hlisa_action_chains import HLISA_ActionChains
-from selenium_toolbox.recaptcha.buster_captcha_solver import buster_captcha_solver
 
-driver = get_driver(chrome=r"/usr/bin/google-chrome-beta",
-                    version=104, headless=True)
-action = HLISA_ActionChains(driver, browser_resets_cursor_location=False)
+driver = chromedriver.get_official(chrome=r"C:\Program Files\Google\Chrome Beta\Application\chrome.exe",
+                                   version=104)
+action = HLISA_ActionChains(driver)
 
 driver.get("https://store.steampowered.com/join")
 # Show mouse
@@ -20,7 +20,7 @@ action.send_keys_to_element(reenter_email, "thisisabot@gmail.com")
 action.perform()
 
 # Solve reCaptcha
-buster_captcha_solver().solve(driver, action)
+reCaptcha.solve_by_buster(driver, action)
 
 # Register account
 i_agree_check = driver.find_element(By.XPATH, '//input[@name="i_agree_check"]')
